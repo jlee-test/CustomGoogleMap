@@ -1,45 +1,50 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoiY2psZWVpaSIsImEiOiJjamQ2b3BiMnQwemRqMnlyMnpwbm11djNhIn0.Yh_KksP2zZy3WCuBbO5EGw';
 
-var mymap = L.mapbox.map('map', 'mapbox.streets', {
+var map = L.mapbox.map('map', 'mapbox.streets', {
+	minZoom: 2,
 	maxZoom: 20,
-	keyboardPanOffset: 100
+	keyboardPanOffset: 100,
+	tileLayer: {
+		continuousWorld: false,
+		noWrap: true
+	}
 });
 
-mymap.locate({
+map.on('resize', function() {
+	map.invalidateSize();
+});
+
+map.locate({
 	setView: true,
 	maximumAge: 50000,
 	enableHighAccuracy: true
 }).on('locationfound', function(e) {
 	L.marker([e.latitude, e.longitude], {
 		title: 'You are here!'
-	}).addTo(mymap);
+	}).addTo(map);
+	alert("FOUND YOU");
 	console.log("You are probably here: " + e.latitude + ", " + e.longitude);
 }).on('locationerror', function(e) {
+	alert(":(");
 	console.log("User denied location permission");
 });
-
-L.control.scale({
-	position: 'topleft',
-	updateWhenIdle: 'false'
-}).addTo(mymap);
 
 L.mapbox.featureLayer('http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson').on('ready', function(e) {
 	var clusterGroup = new L.MarkerClusterGroup();
 	e.target.eachLayer(function(layer) {
 		clusterGroup.addLayer(layer);
 	});
-	mymap.addLayer(clusterGroup);
+	map.addLayer(clusterGroup);
 });
-
 
 
 
 /*
 
 var gridLayer = L.mapbox.gridLayer('mapbox.light');
-mymap.addLayer(L.mapbox.tileLayer('mapbox.light'));
-mymap.addLayer(gridLayer);
-mymap.addControl(L.mapbox.gridControl(gridLayer));
+map.addLayer(L.mapbox.tileLayer('mapbox.light'));
+map.addLayer(gridLayer);
+map.addControl(L.mapbox.gridControl(gridLayer));
 
 */
 /*
@@ -49,5 +54,5 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 	maxZoom: 18,
 	id: 'mapbox.light',
 	accessToken: 'pk.eyJ1IjoiY2psZWVpaSIsImEiOiJjamQ2b3BiMnQwemRqMnlyMnpwbm11djNhIn0.Yh_KksP2zZy3WCuBbO5EGw'
-}).addTo(mymap);
+}).addTo(map);
 */
