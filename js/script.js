@@ -1,4 +1,5 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoiY2psZWVpaSIsImEiOiJjamQ2b3BiMnQwemRqMnlyMnpwbm11djNhIn0.Yh_KksP2zZy3WCuBbO5EGw';
+
 var mymap = L.mapbox.map('map', 'mapbox.streets', {
 	maxZoom: 20,
 	keyboardPanOffset: 100
@@ -6,15 +7,15 @@ var mymap = L.mapbox.map('map', 'mapbox.streets', {
 
 mymap.locate({
 	setView: true,
-	watch: true,
 	maximumAge: 50000,
 	enableHighAccuracy: true
 }).on('locationfound', function(e) {
 	L.marker([e.latitude, e.longitude], {
 		title: 'You are here!'
 	}).addTo(mymap);
+	console.log("You are probably here: " + e.latitude + ", " + e.longitude);
 }).on('locationerror', function(e) {
-	alert(":'(");
+	console.log("User denied location permission");
 });
 
 L.control.scale({
@@ -40,7 +41,8 @@ mymap.addLayer(L.mapbox.tileLayer('mapbox.light'));
 mymap.addLayer(gridLayer);
 mymap.addControl(L.mapbox.gridControl(gridLayer));
 
-*//*
+*/
+/*
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
