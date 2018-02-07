@@ -3,12 +3,12 @@ map.on('load', function() {
 		type: "geojson",
 		data: "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson",
 		cluster: true,
-		clusterMaxZoom: 12, // Max zoom to cluster points on
-		clusterRadius: 25 // Radius of each cluster when clustering points (defaults to 50)
+		clusterMaxZoom: 12,
+		clusterRadius: 25
 	});
 
 	map.addLayer({
-		id: "clusters",
+		id: "cluster",
 		type: "circle",
 		source: "earthquakes",
 		filter: ["has", "point_count"],
@@ -48,11 +48,11 @@ map.on('load', function() {
 	});
 
 
-	map.on('mouseenter', 'clusters', function() {
+	map.on('mouseenter', 'cluster', function() {
 		map.getCanvas().style.cursor = 'pointer';
 	});
 
-	map.on('mouseleave', 'clusters', function() {
+	map.on('mouseleave', 'cluster', function() {
 		map.getCanvas().style.cursor = '';
 	});
 	map.on('mouseenter', 'cluster-count', function() {
