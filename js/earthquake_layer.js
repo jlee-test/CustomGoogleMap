@@ -48,6 +48,13 @@ map.on('load', function() {
 	});
 
 
+
+
+
+
+
+
+
 	map.on('mouseenter', 'cluster', function() {
 		map.getCanvas().style.cursor = 'pointer';
 	});
